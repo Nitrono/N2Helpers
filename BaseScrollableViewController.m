@@ -53,8 +53,8 @@
 #pragma mark TextField Delegates
 - (BOOL)textFieldShouldReturn:(UITextField *)textField
 {
-    int i = [self.allFields indexOfObject:textField];
-    if (i < 0 || i+1>=self.allFields.count) {
+    NSUInteger i = [self.allFields indexOfObject:textField];
+    if ([self.allFields containsObject:textField] == NO || i+1 >= self.allFields.count) {
         [textField resignFirstResponder];
     }
     else
@@ -77,10 +77,15 @@
     //USED BY KeyboardResigner.
     UIScrollView *containingScrollView = (UIScrollView*) gestureRecognizer.view;
     
-    [containingScrollView setContentOffset:CGPointMake(0, 0) animated:TRUE];
+//    [containingScrollView setContentOffset:CGPointMake(0, 0) animated:TRUE];
     [containingScrollView endEditing:YES];
     
     
+}
+
+- (void)dealloc
+{
+    [[NSNotificationCenter defaultCenter] removeObserver:self];
 }
 /*
 #pragma mark - Navigation
